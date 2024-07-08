@@ -5,32 +5,40 @@ services:
     build: ./frontend
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=PathPrefix(/)"
+      - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
       - "traefik.http.services.frontend.loadbalancer.server.port=80"
+    # ports:
+    #   - "3000:80"
+    depends_on:
+      - traefik
 
   backend:
     build: ./backend
     environment:
-      - DATABASE_URL=postgresql://postgres:changeam@db:5432/postgres_db
+      #- DATABASE_URL=postgresql://postgres:app004321@db:5432/postgres_db
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       - PROJECT_NAME=${PROJECT_NAME}
-      - POSTGRES_SERVER=db
+      - POSTGRES_SERVER=${POSTGRES_SERVER}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - FIRST_SUPERUSER=${FIRST_SUPERUSER}
       - FIRST_SUPERUSER_PASSWORD=${FIRST_SUPERUSER_PASSWORD}
-    depends_on:
-      - db
+    
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.backend.rule=PathPrefix(/api) || PathPrefix(/docs)"
+      - "traefik.http.routers.backend.rule=PathPrefix(`/api`) || PathPrefix(`/docs`)"
       - "traefik.http.services.backend.loadbalancer.server.port=8000"
+    # ports:
+    #   - "8000:8000"
+    depends_on:
+      - db
 
   db:
     image: postgres:13
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=postgres_db
+      - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -38,19 +46,28 @@ services:
     image: adminer
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.adminer.rule=PathPrefix(/adminer)"
+      - "traefik.http.routers.adminer.rule=PathPrefix(`/adminer`)"
       - "traefik.http.services.adminer.loadbalancer.server.port=8080"
+    ports:
+      - "8081:8080"
 
   traefik:
     image: traefik:v2.5
+    # command:
+    #   - "--api.insecure=true"
+    #   - "--providers.docker=true"
+    #   - "--providers.docker.exposedbydefault=false"
+    #   - "--entrypoints.web.address=:8888"
     command:
       - "--api.insecure=true"
       - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
       - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:8888"
     ports:
-      - "8888:8888"
-      - "8889:8080"
+      - "81:80"
+      - "443:443"
+      - "8000:8000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
