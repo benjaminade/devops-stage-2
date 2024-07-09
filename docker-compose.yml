@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3'
 
 services:
   backend:
@@ -22,7 +22,7 @@ services:
       - ./frontend/.env
 
   db:
-    image: postgres:latest
+    image: postgres:13
     container_name: postgres_db
     ports:
       - "5432:5432"

@@ -1,1 +1,7 @@
-2024/07/08 22:17:16 [error] 202#202: *146 open() "/var/www/html/.env" failed (2: No such file or directory), client: 185.254.196.173, server: localhost-nginx-proxy-manager, request: "GET /.env HTTP/1.1", host: "3.93.162.187"
+2024/07/09 01:39:45 [error] 183#183: *5 open() "/var/www/html/.env" failed (2: No such file or directory), client: 185.254.196.173, server: localhost-nginx-proxy-manager, request: "GET /.env HTTP/1.1", host: "3.93.162.187"
+2024/07/09 02:24:30 [warn] 156#156: server name "adeyeletechhub.com.ng/api" has suspicious symbols in /data/nginx/proxy_host/3.conf:20
+2024/07/09 02:25:32 [warn] 156#156: server name "adeyeletechhub.com.ng/api" has suspicious symbols in /data/nginx/proxy_host/3.conf:20
+2024/07/09 02:26:46 [warn] 156#156: server name "adeyeletechhub.com.ng/api" has suspicious symbols in /data/nginx/proxy_host/3.conf:20
+2024/07/09 02:27:07 [warn] 156#156: server name "adeyeletechhub.com.ng/api" has suspicious symbols in /data/nginx/proxy_host/3.conf:20
+2024/07/09 02:27:13 [warn] 156#156: server name "adeyeletechhub.com.ng/api" has suspicious symbols in /data/nginx/proxy_host/3.conf:20
+2024/07/09 02:28:11 [warn] 156#156: server name "adeyeletechhub.com.ng/api" has suspicious symbols in /data/nginx/proxy_host/3.conf:20
